@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:template_creator/home_page.dart';
+import 'package:template_creator/_features.dart';
 
 void main() => runApp(const MyApp());
 
