@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template_creator/template_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -49,9 +50,7 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.bottomCenter,
               children: <Widget>[
                 Center(
-                  child: Card(
-                    child: SizedBox.fromSize(size: _templateSize),
-                  ),
+                  child: TemplateWidget(size: _templateSize),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
