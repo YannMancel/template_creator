@@ -41,20 +41,22 @@ class TemplateWidget extends StatelessWidget {
               onVerticalDragEnd: (_) => logic.onDragEnd(),
               child: Stack(
                 children: <Widget>[
-                  ValueListenableBuilder<Tag>(
+                  ValueListenableBuilder<Tag?>(
                     valueListenable: logic.tag,
                     builder: (_, tag, __) {
-                      return Positioned(
-                        left: tag.origin.x,
-                        top: tag.origin.y,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: tag.color,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: SizedBox.fromSize(size: tag.size),
-                        ),
-                      );
+                      return tag != null
+                          ? Positioned(
+                              left: tag.origin.x,
+                              top: tag.origin.y,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: tag.color,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: SizedBox.fromSize(size: tag.size),
+                              ),
+                            )
+                          : const SizedBox.shrink();
                     },
                   ),
                 ],

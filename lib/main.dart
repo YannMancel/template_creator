@@ -17,7 +17,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(title: kAppName),
+      home: TagsLogicWidget(
+        logic: TagsLogicImpl(),
+        child: const HomePage(title: kAppName),
+      ),
     );
   }
 }

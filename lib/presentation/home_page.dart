@@ -37,53 +37,52 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final inversePrimaryColor = Theme.of(context).colorScheme.inversePrimary;
-    return TagsLogicWidget(
-      logic: TagsLogicImpl(),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(widget.title),
-          backgroundColor: inversePrimaryColor,
-        ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
-                  Center(
-                    child: TemplateWidget(size: _templateSize),
+    final logic = TagsLogicWidget.of(context).logic;
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(widget.title),
+        backgroundColor: inversePrimaryColor,
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Center(
+                  child: TemplateWidget(size: _templateSize),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: ElevatedButton.icon(
+                    onPressed: logic.addTag,
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add Tag'),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Add area'),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            ColoredBox(
-              color: inversePrimaryColor,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ActionOnTemplateSize(
-                    title: 'Width',
-                    onPressedDecrease: () => _templateWidthByStep = -10.0,
-                    onPressedIncrease: () => _templateWidthByStep = 10.0,
-                  ),
-                  ActionOnTemplateSize(
-                    title: 'Height',
-                    onPressedDecrease: () => _templateHeightByStep = -10.0,
-                    onPressedIncrease: () => _templateHeightByStep = 10.0,
-                  ),
-                ],
-              ),
+          ),
+          ColoredBox(
+            color: inversePrimaryColor,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ActionOnTemplateSize(
+                  title: 'Width',
+                  onPressedDecrease: () => _templateWidthByStep = -10.0,
+                  onPressedIncrease: () => _templateWidthByStep = 10.0,
+                ),
+                ActionOnTemplateSize(
+                  title: 'Height',
+                  onPressedDecrease: () => _templateHeightByStep = -10.0,
+                  onPressedIncrease: () => _templateHeightByStep = 10.0,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
