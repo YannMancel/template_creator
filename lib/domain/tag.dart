@@ -1,63 +1,87 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:template_creator/_features.dart';
 
+@immutable
 sealed class Tag {
   const Tag({
     required this.origin,
     required this.size,
-    required this.color,
+    required this.level,
+    required this.format,
   });
 
   final math.Point<double> origin;
   final Size size;
-  final Color color;
-
-  bool isIntoArea({required math.Point<double> point}) {
-    return origin.x <= point.x &&
-        point.x <= (origin.x + size.width) &&
-        origin.y <= point.y &&
-        point.y <= (origin.y + size.height);
-  }
-
-  T when<T>({
-    required ValueGetter<T> idle,
-    required ValueGetter<T> selected,
-    required ValueGetter<T> error,
-  }) {
-    return switch (this) {
-      IdleTag() => idle(),
-      SelectedTag() => selected(),
-      ErrorTag() => error(),
-    };
-  }
-
-  bool get isSelected {
-    return when<bool>(
-      idle: () => false,
-      selected: () => true,
-      error: () => false,
-    );
-  }
+  final int level;
+  final Format format;
 }
 
+@immutable
 final class IdleTag extends Tag {
   const IdleTag({
     super.origin = const math.Point<double>(0.0, 0.0),
     super.size = const Size.square(50.0),
-  }) : super(color: Colors.cyan);
+    super.level = 0,
+    required super.format,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is IdleTag &&
+            origin == other.origin &&
+            size == other.size &&
+            level == other.level &&
+            format == other.format);
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll(
+      <Object?>[
+        runtimeType,
+        origin,
+        size,
+        level,
+        format,
+      ],
+    );
+  }
 }
 
+@immutable
 final class SelectedTag extends Tag {
   const SelectedTag({
     required super.origin,
     required super.size,
-  }) : super(color: Colors.green);
-}
+    required super.level,
+    required super.format,
+  });
 
-final class ErrorTag extends Tag {
-  const ErrorTag({
-    required super.origin,
-    required super.size,
-  }) : super(color: Colors.red);
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is IdleTag &&
+            origin == other.origin &&
+            size == other.size &&
+            level == other.level &&
+            format == other.format);
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll(
+      <Object?>[
+        runtimeType,
+        origin,
+        size,
+        level,
+        format,
+      ],
+    );
+  }
 }

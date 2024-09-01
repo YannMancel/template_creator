@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                   child: ElevatedButton.icon(
                     onPressed: logic.addTag,
                     icon: const Icon(Icons.add),
-                    label: const Text('Add Tag'),
+                    label: const Text('Tag'),
                   ),
                 ),
               ],

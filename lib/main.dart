@@ -3,8 +3,6 @@ import 'package:template_creator/_features.dart';
 
 void main() => runApp(const MyApp());
 
-const kAppName = 'Template Creator';
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

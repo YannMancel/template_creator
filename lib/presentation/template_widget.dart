@@ -9,6 +9,26 @@ class TemplateWidget extends StatelessWidget {
 
   final Size size;
 
+  void _onDragStart(DragStartDetails details, TagsLogic logic) {
+    logic.onDragStart(thumbPoint: details.localPosition.toPoint);
+  }
+
+  void _onDragUpdate(
+    DragUpdateDetails details,
+    TagsLogic logic,
+    BoxConstraints constraints,
+  ) {
+    logic.onDragUpdate(
+      thumbPoint: details.localPosition.toPoint,
+      constraints: (
+        maxWidth: constraints.maxWidth,
+        maxHeight: constraints.maxHeight,
+      ),
+    );
+  }
+
+  void _onDragEnd(TagsLogic logic) => logic.onDragEnd();
+
   @override
   Widget build(BuildContext context) {
     final logic = TagsLogicWidget.of(context).logic;
@@ -21,45 +41,56 @@ class TemplateWidget extends StatelessWidget {
         child: LayoutBuilder(
           builder: (_, constraints) {
             return GestureDetector(
-              onHorizontalDragStart: (details) => logic.onDragStart(
-                thumbPosition: details.localPosition,
+              onHorizontalDragStart: (details) => _onDragStart(details, logic),
+              onVerticalDragStart: (details) => _onDragStart(details, logic),
+              onHorizontalDragUpdate: (details) => _onDragUpdate(
+                details,
+                logic,
+                constraints,
               ),
-              onVerticalDragStart: (details) => logic.onDragStart(
-                thumbPosition: details.localPosition,
+              onVerticalDragUpdate: (details) => _onDragUpdate(
+                details,
+                logic,
+                constraints,
               ),
-              onHorizontalDragUpdate: (details) => logic.onDragUpdate(
-                thumbPosition: details.localPosition,
-                maxWidth: constraints.maxWidth,
-                maxHeight: constraints.maxHeight,
-              ),
-              onVerticalDragUpdate: (details) => logic.onDragUpdate(
-                thumbPosition: details.localPosition,
-                maxWidth: constraints.maxWidth,
-                maxHeight: constraints.maxHeight,
-              ),
-              onHorizontalDragEnd: (_) => logic.onDragEnd(),
-              onVerticalDragEnd: (_) => logic.onDragEnd(),
-              child: Stack(
-                children: <Widget>[
-                  ValueListenableBuilder<Tag?>(
-                    valueListenable: logic.tag,
-                    builder: (_, tag, __) {
-                      return tag != null
-                          ? Positioned(
-                              left: tag.origin.x,
-                              top: tag.origin.y,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: tag.color,
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: SizedBox.fromSize(size: tag.size),
+              onHorizontalDragEnd: (_) => _onDragEnd(logic),
+              onVerticalDragEnd: (_) => _onDragEnd(logic),
+              child: ValueListenableBuilder<List<Tag>>(
+                valueListenable: logic.tags,
+                builder: (_, tags, __) => Stack(
+                  children: <Widget>[
+                    for (final tag in tags)
+                      Positioned(
+                        left: tag.origin.x,
+                        top: tag.origin.y,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: tag.color,
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: SizedBox.fromSize(
+                            size: tag.size,
+                            child: tag.format.when<Widget>(
+                              text: (label) => Center(
+                                child: Text(label),
                               ),
-                            )
-                          : const SizedBox.shrink();
-                    },
-                  ),
-                ],
+                              image: (source) => DecoratedBox(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: source.isNetworkUrl
+                                        ? NetworkImage(source)
+                                        : AssetImage(source),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             );
           },
