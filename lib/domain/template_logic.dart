@@ -1,11 +1,13 @@
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 import 'package:template_creator/_features.dart';
 
-abstract interface class TagsLogic {
-  ValueNotifier<List<Tag>> get tags;
+abstract interface class TemplateLogic {
+  set updateWidth(double width);
+  set updateHeight(double height);
+  ValueNotifier<Template> get template;
   void addTag();
   void onDragStart({required math.Point<double> thumbPoint});
   void onDragUpdate({
@@ -15,41 +17,61 @@ abstract interface class TagsLogic {
   void onDragEnd();
 }
 
-final class TagsLogicImpl implements TagsLogic {
+final class TemplateLogicByValueNotifier implements TemplateLogic {
   late math.Point<double> _previousThumbPosition;
 
   @override
-  final ValueNotifier<List<Tag>> tags = ValueNotifier<List<Tag>>(const <Tag>[]);
+  set updateWidth(double width) {
+    template.value = template.value.copyWith(
+      size: Size(width, template.value.size.height),
+    );
+  }
+
+  @override
+  set updateHeight(double height) {
+    template.value = template.value.copyWith(
+      size: Size(template.value.size.width, height),
+    );
+  }
+
+  @override
+  final ValueNotifier<Template> template = ValueNotifier(const Template());
 
   @override
   void addTag() {
-    final format = TextFormat(label: '${tags.value.length + 1}');
+    final tags = template.value.tags;
+    final format = TextFormat(label: '${tags.length + 1}');
     final nextTag = IdleTag(format: format) as Tag;
-    final stackedTags = tags.value.where(
+    final stackedTags = tags.where(
       (tag) => tag.isStacked(nextTag),
     );
-    tags.value = <Tag>[
-      ...tags.value,
-      nextTag.copyWith(level: stackedTags.length),
-    ];
+
+    template.value = template.value.copyWith(
+      tags: <Tag>[
+        ...tags,
+        nextTag.copyWith(level: stackedTags.length),
+      ],
+    );
   }
 
   @override
   void onDragStart({required math.Point<double> thumbPoint}) {
-    final stackedTags = tags.value.where(
+    final tags = template.value.tags;
+    final stackedTags = tags.where(
       (tag) => tag.isIntoArea(thumbPoint),
     );
     if (stackedTags.isEmpty) return;
-
     final nearestTag = stackedTags.reduce(
       (a, b) => (a.level >= b.level) ? a : b,
     );
 
     _previousThumbPosition = thumbPoint;
-    tags.value = <Tag>[
-      for (final tag in tags.value)
-        (tag == nearestTag) ? nearestTag.convertToSelectedTag : tag,
-    ];
+    template.value = template.value.copyWith(
+      tags: <Tag>[
+        for (final tag in tags)
+          (tag == nearestTag) ? nearestTag.convertToSelectedTag : tag,
+      ],
+    );
   }
 
   @override
@@ -57,7 +79,8 @@ final class TagsLogicImpl implements TagsLogic {
     required math.Point<double> thumbPoint,
     required ({double maxWidth, double maxHeight}) constraints,
   }) {
-    final selectedTags = tags.value.where((tag) => tag.isSelected);
+    final tags = template.value.tags;
+    final selectedTags = tags.where((tag) => tag.isSelected);
     if (selectedTags.isEmpty) return;
     final selectedTag = selectedTags.first;
 
@@ -74,7 +97,7 @@ final class TagsLogicImpl implements TagsLogic {
 
     // How many tags are under selectedTag with nextOrigin?
     final idleTags = <Tag>[
-      for (final tag in tags.value)
+      for (final tag in tags)
         if (tag != selectedTag) tag,
     ];
     final stackedTags = idleTags.where(
@@ -99,17 +122,22 @@ final class TagsLogicImpl implements TagsLogic {
     // }
 
     _previousThumbPosition = thumbPoint;
-    tags.value = <Tag>[
-      ...idleTags,
-      //...updatedTags,
-      updatedSelectedTag,
-    ];
+    template.value = template.value.copyWith(
+      tags: <Tag>[
+        ...idleTags,
+        //...updatedTags,
+        updatedSelectedTag,
+      ],
+    );
   }
 
   @override
   void onDragEnd() {
-    tags.value = <Tag>[
-      for (final tag in tags.value) tag.isSelected ? tag.convertToIdleTag : tag,
-    ];
+    final tags = template.value.tags;
+    template.value = template.value.copyWith(
+      tags: <Tag>[
+        for (final tag in tags) tag.isSelected ? tag.convertToIdleTag : tag,
+      ],
+    );
   }
 }

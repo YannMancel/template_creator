@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
     required this.title,
@@ -9,39 +9,28 @@ class HomePage extends StatefulWidget {
 
   final String title;
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  late Size _templateSize;
-
-  set _templateWidthByStep(double step) {
-    setState(() {
-      _templateSize = Size(_templateSize.width + step, _templateSize.height);
-    });
+  void _updateWidthByStep(
+    TemplateLogic logic, {
+    required double step,
+  }) {
+    logic.updateWidth = logic.template.value.size.width + step;
   }
 
-  set _templateHeightByStep(double step) {
-    setState(() {
-      _templateSize = Size(_templateSize.width, _templateSize.height + step);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _templateSize = const Size.square(300);
+  void _updateHeightByStep(
+    TemplateLogic logic, {
+    required double step,
+  }) {
+    logic.updateHeight = logic.template.value.size.height + step;
   }
 
   @override
   Widget build(BuildContext context) {
     final inversePrimaryColor = Theme.of(context).colorScheme.inversePrimary;
-    final logic = TagsLogicWidget.of(context).logic;
+    final logic = TemplateLogicWidget.of(context).logic;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title),
+        title: Text(title),
         backgroundColor: inversePrimaryColor,
       ),
       body: Column(
@@ -50,8 +39,8 @@ class _HomePageState extends State<HomePage> {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: <Widget>[
-                Center(
-                  child: TemplateWidget(size: _templateSize),
+                const Center(
+                  child: TemplateWidget(),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
@@ -71,13 +60,25 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 ActionOnTemplateSize(
                   title: 'Width',
-                  onPressedDecrease: () => _templateWidthByStep = -10.0,
-                  onPressedIncrease: () => _templateWidthByStep = 10.0,
+                  onPressedDecrease: () => _updateWidthByStep(
+                    logic,
+                    step: -10.0,
+                  ),
+                  onPressedIncrease: () => _updateWidthByStep(
+                    logic,
+                    step: 10.0,
+                  ),
                 ),
                 ActionOnTemplateSize(
                   title: 'Height',
-                  onPressedDecrease: () => _templateHeightByStep = -10.0,
-                  onPressedIncrease: () => _templateHeightByStep = 10.0,
+                  onPressedDecrease: () => _updateHeightByStep(
+                    logic,
+                    step: -10.0,
+                  ),
+                  onPressedIncrease: () => _updateHeightByStep(
+                    logic,
+                    step: 10.0,
+                  ),
                 ),
               ],
             ),
