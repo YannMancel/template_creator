@@ -15,9 +15,11 @@
 
 ## Dependencies
 * Flutter Version Management
-    * [fvm][dependency_fvm]
+  * [fvm][dependency_fvm]
 * Linter
-    * [flutter_lints][dependency_flutter_lints]
+  * [flutter_lints][dependency_flutter_lints]
+* Equality
+  * [collection][dependency_collection]
 
 ## Troubleshooting
 
@@ -35,6 +37,7 @@
 [link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
 [dependency_fvm]: https://fvm.app/
 [dependency_flutter_lints]: https://pub.dev/packages/flutter_lints
+[dependency_collection]: https://pub.dev/packages/collection
 [useful_android_studio]: https://developer.android.com/studio
 [useful_virtual_device]: https://developer.android.com/studio/run/managing-avds.html
 [useful_developer_options]: https://developer.android.com/studio/debug/dev-options.html#enable
