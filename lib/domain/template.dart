@@ -10,6 +10,9 @@ final class Template {
   });
 
   final Size size;
+
+  /// The order is important. That allows to known the z position of [Tag]
+  /// against the other [Tag]s.
   final List<Tag> tags;
 
   @override

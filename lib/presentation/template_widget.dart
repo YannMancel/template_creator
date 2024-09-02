@@ -16,8 +16,8 @@ class TemplateWidget extends StatelessWidget {
     logic.onDragUpdate(
       thumbPoint: details.localPosition.toPoint,
       constraints: (
-        maxWidth: constraints.maxWidth,
-        maxHeight: constraints.maxHeight,
+        width: constraints.maxWidth,
+        height: constraints.maxHeight,
       ),
     );
   }

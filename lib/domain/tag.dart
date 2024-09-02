@@ -8,13 +8,11 @@ sealed class Tag {
   const Tag({
     required this.origin,
     required this.size,
-    required this.level,
     required this.format,
   });
 
   final math.Point<double> origin;
   final Size size;
-  final int level;
   final Format format;
 }
 
@@ -23,7 +21,6 @@ final class IdleTag extends Tag {
   const IdleTag({
     super.origin = const math.Point<double>(0.0, 0.0),
     super.size = const Size.square(50.0),
-    super.level = 0,
     required super.format,
   });
 
@@ -34,7 +31,6 @@ final class IdleTag extends Tag {
             other is IdleTag &&
             origin == other.origin &&
             size == other.size &&
-            level == other.level &&
             format == other.format);
   }
 
@@ -45,7 +41,6 @@ final class IdleTag extends Tag {
         runtimeType,
         origin,
         size,
-        level,
         format,
       ],
     );
@@ -57,7 +52,6 @@ final class SelectedTag extends Tag {
   const SelectedTag({
     required super.origin,
     required super.size,
-    required super.level,
     required super.format,
   });
 
@@ -68,7 +62,6 @@ final class SelectedTag extends Tag {
             other is IdleTag &&
             origin == other.origin &&
             size == other.size &&
-            level == other.level &&
             format == other.format);
   }
 
@@ -79,7 +72,6 @@ final class SelectedTag extends Tag {
         runtimeType,
         origin,
         size,
-        level,
         format,
       ],
     );

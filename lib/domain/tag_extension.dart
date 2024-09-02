@@ -17,10 +17,6 @@ extension TagExt on Tag {
     return rectangle.containsPoint(point);
   }
 
-  bool isStacked(Tag tag) {
-    return rectangle.intersects(tag.rectangle);
-  }
-
   T when<T>({
     required ValueGetter<T> idle,
     required ValueGetter<T> selected,
@@ -34,20 +30,17 @@ extension TagExt on Tag {
   Tag copyWith({
     math.Point<double>? origin,
     Size? size,
-    int? level,
     Format? format,
   }) {
     return when<Tag>(
       idle: () => IdleTag(
         origin: origin ?? this.origin,
         size: size ?? this.size,
-        level: level ?? this.level,
         format: format ?? this.format,
       ),
       selected: () => SelectedTag(
         origin: origin ?? this.origin,
         size: size ?? this.size,
-        level: level ?? this.level,
         format: format ?? this.format,
       ),
     );
@@ -62,7 +55,7 @@ extension TagExt on Tag {
 
   Color get color {
     return when<Color>(
-      idle: () => kIdleColors[level % kIdleColors.length],
+      idle: () => kIdleColor,
       selected: () => kSelectedColor,
     );
   }
@@ -72,7 +65,6 @@ extension TagExt on Tag {
       idle: () => SelectedTag(
         origin: origin,
         size: size,
-        level: level,
         format: format,
       ),
       selected: () => this,
@@ -85,7 +77,6 @@ extension TagExt on Tag {
       selected: () => IdleTag(
         origin: origin,
         size: size,
-        level: level,
         format: format,
       ),
     );
