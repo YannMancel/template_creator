@@ -1,3 +1,4 @@
+export 'actions_widget.dart';
 export 'configuration_widget.dart';
 export 'tags_widget.dart';
 export 'template_logic_widget.dart';

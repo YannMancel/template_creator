@@ -7,8 +7,8 @@ class ConfigurationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const kTabMap = <String, Widget>{
-      'size': TemplateSizeWidget(),
-      'tags': TagsWidget(),
+      'Size': TemplateSizeWidget(),
+      'Tags': TagsWidget(),
     };
     return DefaultTabController(
       length: kTabMap.length,

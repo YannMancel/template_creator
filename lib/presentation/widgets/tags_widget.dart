@@ -13,32 +13,22 @@ class TagsWidget extends StatelessWidget {
         ValueListenableBuilder(
           valueListenable: logic.template,
           builder: (_, template, __) {
-            return template.tags.isNotEmpty
-                ? ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 56.0),
-                    itemCount: template.tags.length,
-                    itemBuilder: (_, index) {
-                      final tag = template.tags[index];
-                      return ListTile(
-                        leading: Icon(
-                          tag.format.when<IconData>(
-                            text: (_) => Icons.text_fields,
-                            image: (_) => Icons.image,
-                          ),
-                        ),
-                        title: Text(
-                          tag.format.when<String>(
-                            text: (label) => label,
-                            image: (source) => source,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      );
-                    },
-                  )
-                : const Center(
-                    child: Text('No tags'),
-                  );
+            if (template.tags.isEmpty) {
+              return const Center(
+                child: Text('No tags'),
+              );
+            }
+
+            //TODO(Yann): sort template.tags
+            return ListView.separated(
+              padding: const EdgeInsets.only(bottom: 56.0),
+              itemCount: template.tags.length,
+              itemBuilder: (_, index) {
+                final tag = template.tags[index];
+                return TagListTile(tag);
+              },
+              separatorBuilder: (_, __) => const Divider(),
+            );
           },
         ),
         Padding(
@@ -47,6 +37,54 @@ class TagsWidget extends StatelessWidget {
             onPressed: logic.addTag,
             icon: const Icon(Icons.add),
             label: const Text('Tag'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class TagListTile extends StatelessWidget {
+  const TagListTile(
+    this.tag, {
+    super.key,
+  });
+
+  final Tag tag;
+
+  @override
+  Widget build(BuildContext context) {
+    final logic = TemplateLogicWidget.of(context).logic;
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Icon(
+            tag.format.when<IconData>(
+              text: (_) => Icons.text_fields,
+              image: (_) => Icons.image,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            tag.format.when<String>(
+              text: (label) => label,
+              image: (source) => source,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        SizedBox(
+          width: 150.0,
+          height: 120.0,
+          child: ActionsWidget(
+            onUpdatedWidthByStep: (step) {
+              logic.updateTagWidth(tag, width: tag.size.width + step);
+            },
+            onUpdatedHeightByStep: (step) {
+              logic.updateTagHeight(tag, height: tag.size.height + step);
+            },
           ),
         ),
       ],

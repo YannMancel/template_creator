@@ -9,6 +9,8 @@ abstract interface class TemplateLogic {
   set updateWidth(double width);
   set updateHeight(double height);
   void addTag();
+  void updateTagWidth(Tag tag, {required double width});
+  void updateTagHeight(Tag tag, {required double height});
   void onDragStart({required math.Point<double> thumbPoint});
   void onDragUpdate({
     required math.Point<double> thumbPoint,
@@ -50,6 +52,34 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
         ),
       ],
     );
+  }
+
+  @override
+  void updateTagWidth(Tag tag, {required double width}) {
+    final updatedTag = tag.copyWith(
+      size: Size(width, tag.size.height),
+    );
+    final tags = template.value.tags;
+    template.value = template.value.copyWith(
+      tags: <Tag>[
+        for (final idleTag in tags) (idleTag == tag) ? updatedTag : idleTag,
+      ],
+    );
+    // TODO(Yann): clamp by constraints
+  }
+
+  @override
+  void updateTagHeight(Tag tag, {required double height}) {
+    final updatedTag = tag.copyWith(
+      size: Size(tag.size.width, height),
+    );
+    final tags = template.value.tags;
+    template.value = template.value.copyWith(
+      tags: <Tag>[
+        for (final idleTag in tags) (idleTag == tag) ? updatedTag : idleTag,
+      ],
+    );
+    // TODO(Yann): clamp by constraints
   }
 
   @override
