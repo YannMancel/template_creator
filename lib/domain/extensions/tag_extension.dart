@@ -28,17 +28,20 @@ extension TagExt on Tag {
   }
 
   Tag copyWith({
+    int? id,
     math.Point<double>? origin,
     Size? size,
     Format? format,
   }) {
     return when<Tag>(
       idle: () => IdleTag(
+        id: id ?? this.id,
         origin: origin ?? this.origin,
         size: size ?? this.size,
         format: format ?? this.format,
       ),
       selected: () => SelectedTag(
+        id: id ?? this.id,
         origin: origin ?? this.origin,
         size: size ?? this.size,
         format: format ?? this.format,
@@ -63,6 +66,7 @@ extension TagExt on Tag {
   Tag get convertToSelectedTag {
     return when<Tag>(
       idle: () => SelectedTag(
+        id: id,
         origin: origin,
         size: size,
         format: format,
@@ -75,10 +79,20 @@ extension TagExt on Tag {
     return when<Tag>(
       idle: () => this,
       selected: () => IdleTag(
+        id: id,
         origin: origin,
         size: size,
         format: format,
       ),
     );
+  }
+}
+
+extension TagsExt on List<Tag> {
+  List<Tag> get reversedById {
+    return List.of(this)
+      ..sort(
+        (a, b) => b.id.compareTo(a.id),
+      );
   }
 }

@@ -44,11 +44,13 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void addTag() {
     final tags = template.value.tags;
+    final id = tags.length;
     template.value = template.value.copyWith(
       tags: <Tag>[
         ...tags,
         IdleTag(
-          format: TextFormat(label: '${tags.length + 1}'),
+          id: id,
+          format: TextFormat(label: '$id'),
         ),
       ],
     );

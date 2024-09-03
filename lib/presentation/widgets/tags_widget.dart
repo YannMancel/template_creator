@@ -19,12 +19,12 @@ class TagsWidget extends StatelessWidget {
               );
             }
 
-            //TODO(Yann): sort template.tags
+            final sortedTags = template.tags.reversedById;
             return ListView.separated(
               padding: const EdgeInsets.only(bottom: 56.0),
-              itemCount: template.tags.length,
+              itemCount: sortedTags.length,
               itemBuilder: (_, index) {
-                final tag = template.tags[index];
+                final tag = sortedTags[index];
                 return TagListTile(tag);
               },
               separatorBuilder: (_, __) => const Divider(),
