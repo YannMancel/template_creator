@@ -12,7 +12,7 @@ abstract interface class TemplateLogic {
   void onDragStart({required math.Point<double> thumbPoint});
   void onDragUpdate({
     required math.Point<double> thumbPoint,
-    required ({double width, double height}) constraints,
+    required Size constraints,
   });
   void onDragEnd();
 }
@@ -75,27 +75,24 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void onDragUpdate({
     required math.Point<double> thumbPoint,
-    required ({double width, double height}) constraints,
+    required Size constraints,
   }) {
     final tags = template.value.tags;
     final selectedTags = tags.where((tag) => tag.isSelected);
     if (selectedTags.isEmpty) return;
     final selectedTag = selectedTags.first;
-    final delta = Offset(
-      thumbPoint.x - _previousThumbPosition.x,
-      thumbPoint.y - _previousThumbPosition.y,
+    final dragDelta = thumbPoint - _previousThumbPosition;
+    final originBoundaries = math.Rectangle.fromPoints(
+      const math.Point<double>(0.0, 0.0),
+      constraints.toBiggestPoint - selectedTag.size.toBiggestPoint,
     );
-    final nextOrigin = math.Point<double>(
-      (selectedTag.origin.x + delta.dx)
-          .clamp(0.0, constraints.width - selectedTag.size.width),
-      (selectedTag.origin.y + delta.dy)
-          .clamp(0.0, constraints.height - selectedTag.size.height),
-    );
+    final updatedOrigin =
+        (selectedTag.origin + dragDelta).clampByRectangle(originBoundaries);
     _previousThumbPosition = thumbPoint;
     template.value = template.value.copyWith(
       tags: <Tag>[
         for (final tag in tags)
-          tag.isSelected ? tag.copyWith(origin: nextOrigin) : tag,
+          tag.isSelected ? tag.copyWith(origin: updatedOrigin) : tag,
       ],
     );
   }
