@@ -17,14 +17,15 @@ class HomePage extends StatelessWidget {
         title: Text(title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Stack(
-        alignment: Alignment.bottomCenter,
+      body: const Column(
         children: <Widget>[
-          Center(
-            child: TemplateWidget(),
+          Expanded(
+            child: Center(
+              child: TemplateWidget(),
+            ),
           ),
           SizedBox(
-            height: 160.0,
+            height: 300.0,
             child: ConfigurationWidget(),
           ),
         ],
