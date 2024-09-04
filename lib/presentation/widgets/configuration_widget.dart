@@ -14,8 +14,13 @@ class ConfigurationWidget extends StatelessWidget {
       length: kTabMap.length,
       child: Column(
         children: <Widget>[
-          ColoredBox(
-            color: Theme.of(context).colorScheme.inversePrimary,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.inversePrimary,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(8.0),
+              ),
+            ),
             child: TabBar(
               tabs: <Widget>[
                 for (final text in kTabMap.keys) Tab(text: text),
