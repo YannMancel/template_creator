@@ -74,7 +74,11 @@ class TemplateCard extends StatelessWidget {
                               padding: tag.padding,
                               child: tag.format.when<Widget?>(
                                 text: (label, style) => Center(
-                                  child: Text(label, style: style),
+                                  child: Text(
+                                    label,
+                                    textAlign: TextAlign.center,
+                                    style: style,
+                                  ),
                                 ),
                                 image: (_) => null,
                               ),

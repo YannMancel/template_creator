@@ -12,6 +12,8 @@ abstract interface class TemplateLogic {
   void addTag();
   void updateTagWidth(Tag tag, {required double width});
   void updateTagHeight(Tag tag, {required double height});
+  void updateTagLabel(Tag tag, {required String label});
+  void updateTagSource(Tag tag, {required String source});
   void convertToTextFormat(Tag tag);
   void convertToImageFormat(Tag tag);
   void onDragStart({required math.Point<double> thumbPoint});
@@ -93,6 +95,40 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
       tags: <Tag>[
         for (final idleTag in tags) (idleTag == tag) ? updatedTag : idleTag,
       ],
+    );
+  }
+
+  @override
+  void updateTagLabel(Tag tag, {required String label}) {
+    tag.format.when<void>(
+      text: (_, __) {
+        final tags = template.value.tags;
+        final format = TextFormat(label: label);
+        template.value = template.value.copyWith(
+          tags: <Tag>[
+            for (final idleTag in tags)
+              (idleTag == tag) ? idleTag.copyWith(format: format) : idleTag,
+          ],
+        );
+      },
+      image: (_) {/* Do nothing here */},
+    );
+  }
+
+  @override
+  void updateTagSource(Tag tag, {required String source}) {
+    tag.format.when<void>(
+      text: (_, __) {/* Do nothing here */},
+      image: (_) {
+        final tags = template.value.tags;
+        final format = ImageFormat(source: source);
+        template.value = template.value.copyWith(
+          tags: <Tag>[
+            for (final idleTag in tags)
+              (idleTag == tag) ? idleTag.copyWith(format: format) : idleTag,
+          ],
+        );
+      },
     );
   }
 

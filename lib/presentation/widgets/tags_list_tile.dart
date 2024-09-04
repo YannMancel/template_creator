@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
-class TagListTile extends StatelessWidget {
+class TagListTile extends StatefulWidget {
   const TagListTile(
     this.tag, {
     super.key,
   });
 
   final Tag tag;
+
+  @override
+  State<TagListTile> createState() => _TagListTileState();
+}
+
+class _TagListTileState extends State<TagListTile> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: widget.tag.format.when<String>(
+        text: (label, _) => label,
+        image: (source) => source,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +45,14 @@ class TagListTile extends StatelessWidget {
                 child: const Icon(Icons.text_fields),
                 onPressed: () {
                   final logic = context.templateLogic;
-                  logic.convertToTextFormat(tag);
+                  logic.convertToTextFormat(widget.tag);
                 },
               ),
               MenuItemButton(
                 child: const Icon(Icons.image),
                 onPressed: () {
                   final logic = context.templateLogic;
-                  logic.convertToImageFormat(tag);
+                  logic.convertToImageFormat(widget.tag);
                 },
               ),
             ],
@@ -37,7 +61,7 @@ class TagListTile extends StatelessWidget {
                 controller.isOpen ? controller.close() : controller.open();
               },
               icon: Icon(
-                tag.format.when<IconData>(
+                widget.tag.format.when<IconData>(
                   text: (_, __) => Icons.text_fields,
                   image: (_) => Icons.image,
                 ),
@@ -46,12 +70,19 @@ class TagListTile extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Text(
-            tag.format.when<String>(
-              text: (label, _) => label,
-              image: (source) => source,
-            ),
-            overflow: TextOverflow.ellipsis,
+          child: TextFormField(
+            controller: _controller,
+            onEditingComplete: () {
+              final logic = context.templateLogic;
+              widget.tag.format.when<void>(
+                text: (_, __) {
+                  logic.updateTagLabel(widget.tag, label: _controller.text);
+                },
+                image: (_) {
+                  logic.updateTagSource(widget.tag, source: _controller.text);
+                },
+              );
+            },
           ),
         ),
         SizedBox(
@@ -60,11 +91,13 @@ class TagListTile extends StatelessWidget {
           child: ActionsWidget(
             onWidthStepUpdate: (step) {
               final logic = context.templateLogic;
-              logic.updateTagWidth(tag, width: tag.size.width + step);
+              logic.updateTagWidth(widget.tag,
+                  width: widget.tag.size.width + step);
             },
             onHeightStepUpdate: (step) {
               final logic = context.templateLogic;
-              logic.updateTagHeight(tag, height: tag.size.height + step);
+              logic.updateTagHeight(widget.tag,
+                  height: widget.tag.size.height + step);
             },
           ),
         ),

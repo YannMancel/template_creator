@@ -25,7 +25,10 @@ class TagsWidget extends StatelessWidget {
               itemCount: sortedTags.length,
               itemBuilder: (_, index) {
                 final tag = sortedTags[index];
-                return TagListTile(tag);
+                return TagListTile(
+                  tag,
+                  key: ValueKey(tag),
+                );
               },
               separatorBuilder: (_, __) => const Divider(),
             );
