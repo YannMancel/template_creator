@@ -6,7 +6,7 @@ class TagsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = TemplateLogicWidget.of(context).logic;
+    final logic = context.templateLogic;
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
@@ -54,7 +54,6 @@ class TagListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = TemplateLogicWidget.of(context).logic;
     return Row(
       children: <Widget>[
         Padding(
@@ -80,9 +79,11 @@ class TagListTile extends StatelessWidget {
           height: 120.0,
           child: ActionsWidget(
             onUpdatedWidthByStep: (step) {
+              final logic = context.templateLogic;
               logic.updateTagWidth(tag, width: tag.size.width + step);
             },
             onUpdatedHeightByStep: (step) {
+              final logic = context.templateLogic;
               logic.updateTagHeight(tag, height: tag.size.height + step);
             },
           ),

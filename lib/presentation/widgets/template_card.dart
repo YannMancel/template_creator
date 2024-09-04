@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
-class TemplateWidget extends StatelessWidget {
-  const TemplateWidget({super.key});
+class TemplateCard extends StatelessWidget {
+  const TemplateCard({super.key});
 
   void _onDragStart(DragStartDetails details, TemplateLogic logic) {
     logic.onDragStart(thumbPoint: details.localPosition.toPoint);
@@ -23,7 +23,7 @@ class TemplateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = TemplateLogicWidget.of(context).logic;
+    final logic = context.templateLogic;
     return ValueListenableBuilder<Template>(
       valueListenable: logic.template,
       builder: (_, template, __) => Card(

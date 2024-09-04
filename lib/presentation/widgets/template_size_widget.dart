@@ -6,12 +6,13 @@ class TemplateSizeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = TemplateLogicWidget.of(context).logic;
     return ActionsWidget(
       onUpdatedWidthByStep: (step) {
+        final logic = context.templateLogic;
         logic.updateWidth = logic.template.value.size.width + step;
       },
       onUpdatedHeightByStep: (step) {
+        final logic = context.templateLogic;
         logic.updateHeight = logic.template.value.size.height + step;
       },
     );

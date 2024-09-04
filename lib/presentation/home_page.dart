@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Center(
-              child: TemplateWidget(),
+              child: TemplateCard(),
             ),
           ),
           SizedBox(
