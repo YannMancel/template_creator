@@ -62,8 +62,8 @@ class TemplateCard extends StatelessWidget {
                           child: SizedBox.fromSize(
                             size: tag.size,
                             child: tag.format.when<Widget>(
-                              text: (label) => Center(
-                                child: Text(label),
+                              text: (label, style) => Center(
+                                child: Text(label, style: style),
                               ),
                               image: (source) => DecoratedBox(
                                 decoration: BoxDecoration(

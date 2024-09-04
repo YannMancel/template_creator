@@ -7,16 +7,25 @@ sealed class Format {
 
 @immutable
 final class TextFormat extends Format {
-  const TextFormat({required this.label});
+  const TextFormat({
+    required this.label,
+    this.style = const TextStyle(
+      color: Colors.black,
+      fontSize: 8.0,
+      fontWeight: FontWeight.normal,
+    ),
+  });
 
   final String label;
+  final TextStyle style;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             other is TextFormat &&
-            label == other.label);
+            label == other.label &&
+            style == other.style);
   }
 
   @override
@@ -25,6 +34,7 @@ final class TextFormat extends Format {
       <Object?>[
         runtimeType,
         label,
+        style,
       ],
     );
   }

@@ -17,7 +17,7 @@ class TagListTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Icon(
             tag.format.when<IconData>(
-              text: (_) => Icons.text_fields,
+              text: (_, __) => Icons.text_fields,
               image: (_) => Icons.image,
             ),
           ),
@@ -25,7 +25,7 @@ class TagListTile extends StatelessWidget {
         Expanded(
           child: Text(
             tag.format.when<String>(
-              text: (label) => label,
+              text: (label, _) => label,
               image: (source) => source,
             ),
             overflow: TextOverflow.ellipsis,
