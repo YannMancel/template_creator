@@ -9,6 +9,7 @@ sealed class Format {
 final class TextFormat extends Format {
   const TextFormat({
     required this.label,
+    this.alignment = Alignment.center,
     this.style = const TextStyle(
       color: Colors.black,
       fontSize: 12.0,
@@ -17,6 +18,7 @@ final class TextFormat extends Format {
   });
 
   final String label;
+  final Alignment alignment;
   final TextStyle style;
 
   @override
@@ -25,6 +27,7 @@ final class TextFormat extends Format {
         (runtimeType == other.runtimeType &&
             other is TextFormat &&
             label == other.label &&
+            alignment == other.alignment &&
             style == other.style);
   }
 
@@ -34,6 +37,7 @@ final class TextFormat extends Format {
       <Object?>[
         runtimeType,
         label,
+        alignment,
         style,
       ],
     );

@@ -21,7 +21,7 @@ class _TagListTileState extends State<TagListTile> {
     super.initState();
     _controller = TextEditingController(
       text: widget.tag.format.when<String>(
-        text: (label, _) => label,
+        text: (label, _, __) => label,
         image: (source) => source,
       ),
     );
@@ -62,7 +62,7 @@ class _TagListTileState extends State<TagListTile> {
               },
               icon: Icon(
                 widget.tag.format.when<IconData>(
-                  text: (_, __) => Icons.text_fields,
+                  text: (_, __, ___) => Icons.text_fields,
                   image: (_) => Icons.image,
                 ),
               ),
@@ -75,7 +75,7 @@ class _TagListTileState extends State<TagListTile> {
             onEditingComplete: () {
               final logic = context.templateLogic;
               widget.tag.format.when<void>(
-                text: (_, __) {
+                text: (_, __, ___) {
                   logic.updateTagLabel(widget.tag, label: _controller.text);
                 },
                 image: (_) {

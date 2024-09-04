@@ -61,7 +61,7 @@ class TemplateCard extends StatelessWidget {
                               border: tag.border,
                               borderRadius: tag.borderRadius,
                               image: tag.format.when<DecorationImage?>(
-                                text: (_, __) => null,
+                                text: (_, __, ___) => null,
                                 image: (source) => DecorationImage(
                                   image: source.isNetworkUrl
                                       ? NetworkImage(source)
@@ -73,11 +73,12 @@ class TemplateCard extends StatelessWidget {
                             child: Padding(
                               padding: tag.padding,
                               child: tag.format.when<Widget?>(
-                                text: (label, style) => Center(
+                                text: (label, alignment, style) => Align(
+                                  alignment: alignment,
                                   child: Text(
                                     label,
-                                    textAlign: TextAlign.center,
                                     style: style,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 image: (_) => null,

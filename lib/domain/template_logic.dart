@@ -101,7 +101,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void updateTagLabel(Tag tag, {required String label}) {
     tag.format.when<void>(
-      text: (_, __) {
+      text: (_, __, ___) {
         final tags = template.value.tags;
         final format = TextFormat(label: label);
         template.value = template.value.copyWith(
@@ -118,7 +118,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void updateTagSource(Tag tag, {required String source}) {
     tag.format.when<void>(
-      text: (_, __) {/* Do nothing here */},
+      text: (_, __, ___) {/* Do nothing here */},
       image: (_) {
         final tags = template.value.tags;
         final format = ImageFormat(source: source);
@@ -135,7 +135,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void convertToTextFormat(Tag tag) {
     tag.format.when<void>(
-      text: (_, __) {/* Do nothing here */},
+      text: (_, __, ___) {/* Do nothing here */},
       image: (_) {
         final tags = template.value.tags;
         final format = TextFormat(label: '${tag.id}');
@@ -152,7 +152,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void convertToImageFormat(Tag tag) {
     tag.format.when<void>(
-      text: (_, __) {
+      text: (_, __, ___) {
         final tags = template.value.tags;
         const kFormat = ImageFormat();
         template.value = template.value.copyWith(
