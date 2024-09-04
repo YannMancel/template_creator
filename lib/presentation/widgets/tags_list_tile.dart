@@ -15,10 +15,33 @@ class TagListTile extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Icon(
-            tag.format.when<IconData>(
-              text: (_, __) => Icons.text_fields,
-              image: (_) => Icons.image,
+          child: MenuAnchor(
+            menuChildren: <Widget>[
+              MenuItemButton(
+                child: const Icon(Icons.text_fields),
+                onPressed: () {
+                  final logic = context.templateLogic;
+                  logic.convertToTextFormat(tag);
+                },
+              ),
+              MenuItemButton(
+                child: const Icon(Icons.image),
+                onPressed: () {
+                  final logic = context.templateLogic;
+                  logic.convertToImageFormat(tag);
+                },
+              ),
+            ],
+            builder: (_, controller, __) => IconButton.outlined(
+              onPressed: () {
+                controller.isOpen ? controller.close() : controller.open();
+              },
+              icon: Icon(
+                tag.format.when<IconData>(
+                  text: (_, __) => Icons.text_fields,
+                  image: (_) => Icons.image,
+                ),
+              ),
             ),
           ),
         ),

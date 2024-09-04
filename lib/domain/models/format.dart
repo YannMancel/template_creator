@@ -42,7 +42,9 @@ final class TextFormat extends Format {
 
 @immutable
 final class ImageFormat extends Format {
-  const ImageFormat({required this.source});
+  const ImageFormat({
+    this.source = 'https://picsum.photos/250?image=9',
+  });
 
   final String source;
 
