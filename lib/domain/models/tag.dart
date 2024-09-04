@@ -10,12 +10,14 @@ sealed class Tag {
     required this.origin,
     required this.size,
     required this.format,
+    required this.padding,
   });
 
   final int id;
   final math.Point<double> origin;
   final Size size;
   final Format format;
+  final EdgeInsets padding;
 }
 
 @immutable
@@ -25,6 +27,7 @@ final class IdleTag extends Tag {
     super.origin = const math.Point<double>(0.0, 0.0),
     super.size = const Size.square(50.0),
     required super.format,
+    super.padding = const EdgeInsets.all(8.0),
   });
 
   @override
@@ -35,7 +38,8 @@ final class IdleTag extends Tag {
             id == other.id &&
             origin == other.origin &&
             size == other.size &&
-            format == other.format);
+            format == other.format &&
+            padding == other.padding);
   }
 
   @override
@@ -47,6 +51,7 @@ final class IdleTag extends Tag {
         origin,
         size,
         format,
+        padding,
       ],
     );
   }
@@ -59,6 +64,7 @@ final class SelectedTag extends Tag {
     required super.origin,
     required super.size,
     required super.format,
+    required super.padding,
   });
 
   @override
@@ -69,7 +75,8 @@ final class SelectedTag extends Tag {
             id == other.id &&
             origin == other.origin &&
             size == other.size &&
-            format == other.format);
+            format == other.format &&
+            padding == other.padding);
   }
 
   @override
@@ -81,6 +88,7 @@ final class SelectedTag extends Tag {
         origin,
         size,
         format,
+        padding,
       ],
     );
   }

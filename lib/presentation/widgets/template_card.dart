@@ -61,17 +61,20 @@ class TemplateCard extends StatelessWidget {
                           ),
                           child: SizedBox.fromSize(
                             size: tag.size,
-                            child: tag.format.when<Widget>(
-                              text: (label, style) => Center(
-                                child: Text(label, style: style),
-                              ),
-                              image: (source) => DecoratedBox(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: source.isNetworkUrl
-                                        ? NetworkImage(source)
-                                        : AssetImage(source),
-                                    fit: BoxFit.cover,
+                            child: Padding(
+                              padding: tag.padding,
+                              child: tag.format.when<Widget>(
+                                text: (label, style) => Center(
+                                  child: Text(label, style: style),
+                                ),
+                                image: (source) => DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: source.isNetworkUrl
+                                          ? NetworkImage(source)
+                                          : AssetImage(source),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),

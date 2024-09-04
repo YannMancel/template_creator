@@ -21,7 +21,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   late math.Point<double> _previousThumbPosition;
   late Size _constraints;
 
-  static const kMinTagSize = Size.square(20.0);
+  static const kMinTagSize = Size(20.0, 30.0);
 
   @override
   set constraints(Size constraints) => _constraints = constraints;

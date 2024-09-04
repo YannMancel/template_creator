@@ -32,6 +32,7 @@ extension TagExt on Tag {
     math.Point<double>? origin,
     Size? size,
     Format? format,
+    EdgeInsets? padding,
   }) {
     return when<Tag>(
       idle: () => IdleTag(
@@ -39,12 +40,14 @@ extension TagExt on Tag {
         origin: origin ?? this.origin,
         size: size ?? this.size,
         format: format ?? this.format,
+        padding: padding ?? this.padding,
       ),
       selected: () => SelectedTag(
         id: id ?? this.id,
         origin: origin ?? this.origin,
         size: size ?? this.size,
         format: format ?? this.format,
+        padding: padding ?? this.padding,
       ),
     );
   }
@@ -58,8 +61,8 @@ extension TagExt on Tag {
 
   Color get color {
     return when<Color>(
-      idle: () => kIdleColor,
-      selected: () => kSelectedColor,
+      idle: () => Colors.purpleAccent,
+      selected: () => Colors.green,
     );
   }
 
@@ -70,6 +73,7 @@ extension TagExt on Tag {
         origin: origin,
         size: size,
         format: format,
+        padding: padding,
       ),
       selected: () => this,
     );
@@ -83,6 +87,7 @@ extension TagExt on Tag {
         origin: origin,
         size: size,
         format: format,
+        padding: padding,
       ),
     );
   }
