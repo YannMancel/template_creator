@@ -11,7 +11,7 @@ final class TextFormat extends Format {
     required this.label,
     this.style = const TextStyle(
       color: Colors.black,
-      fontSize: 8.0,
+      fontSize: 12.0,
       fontWeight: FontWeight.normal,
     ),
   });

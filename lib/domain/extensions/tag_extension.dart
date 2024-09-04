@@ -33,6 +33,9 @@ extension TagExt on Tag {
     Size? size,
     Format? format,
     EdgeInsets? padding,
+    Border? border,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
   }) {
     return when<Tag>(
       idle: () => IdleTag(
@@ -41,6 +44,9 @@ extension TagExt on Tag {
         size: size ?? this.size,
         format: format ?? this.format,
         padding: padding ?? this.padding,
+        border: border ?? this.border,
+        borderRadius: borderRadius ?? this.borderRadius,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
       ),
       selected: () => SelectedTag(
         id: id ?? this.id,
@@ -48,6 +54,9 @@ extension TagExt on Tag {
         size: size ?? this.size,
         format: format ?? this.format,
         padding: padding ?? this.padding,
+        border: border ?? this.border,
+        borderRadius: borderRadius ?? this.borderRadius,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
       ),
     );
   }
@@ -59,9 +68,9 @@ extension TagExt on Tag {
     );
   }
 
-  Color get color {
+  Color get stateColor {
     return when<Color>(
-      idle: () => Colors.purpleAccent,
+      idle: () => backgroundColor,
       selected: () => Colors.green,
     );
   }
@@ -74,6 +83,9 @@ extension TagExt on Tag {
         size: size,
         format: format,
         padding: padding,
+        border: border,
+        borderRadius: borderRadius,
+        backgroundColor: backgroundColor,
       ),
       selected: () => this,
     );
@@ -88,6 +100,9 @@ extension TagExt on Tag {
         size: size,
         format: format,
         padding: padding,
+        border: border,
+        borderRadius: borderRadius,
+        backgroundColor: backgroundColor,
       ),
     );
   }

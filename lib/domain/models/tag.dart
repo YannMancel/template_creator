@@ -11,6 +11,9 @@ sealed class Tag {
     required this.size,
     required this.format,
     required this.padding,
+    required this.border,
+    required this.borderRadius,
+    required this.backgroundColor,
   });
 
   final int id;
@@ -18,6 +21,9 @@ sealed class Tag {
   final Size size;
   final Format format;
   final EdgeInsets padding;
+  final Border border;
+  final BorderRadius borderRadius;
+  final Color backgroundColor;
 }
 
 @immutable
@@ -28,6 +34,14 @@ final class IdleTag extends Tag {
     super.size = const Size.square(50.0),
     required super.format,
     super.padding = const EdgeInsets.all(8.0),
+    super.border = const Border.symmetric(
+      horizontal: BorderSide(),
+      vertical: BorderSide(),
+    ),
+    super.borderRadius = const BorderRadius.all(
+      Radius.circular(4.0),
+    ),
+    super.backgroundColor = Colors.purpleAccent,
   });
 
   @override
@@ -39,7 +53,10 @@ final class IdleTag extends Tag {
             origin == other.origin &&
             size == other.size &&
             format == other.format &&
-            padding == other.padding);
+            padding == other.padding &&
+            border == other.border &&
+            borderRadius == other.borderRadius &&
+            backgroundColor == other.backgroundColor);
   }
 
   @override
@@ -52,6 +69,9 @@ final class IdleTag extends Tag {
         size,
         format,
         padding,
+        border,
+        borderRadius,
+        backgroundColor,
       ],
     );
   }
@@ -65,6 +85,9 @@ final class SelectedTag extends Tag {
     required super.size,
     required super.format,
     required super.padding,
+    required super.border,
+    required super.borderRadius,
+    required super.backgroundColor,
   });
 
   @override
@@ -76,7 +99,10 @@ final class SelectedTag extends Tag {
             origin == other.origin &&
             size == other.size &&
             format == other.format &&
-            padding == other.padding);
+            padding == other.padding &&
+            border == other.border &&
+            borderRadius == other.borderRadius &&
+            backgroundColor == other.backgroundColor);
   }
 
   @override
@@ -89,6 +115,9 @@ final class SelectedTag extends Tag {
         size,
         format,
         padding,
+        border,
+        borderRadius,
+        backgroundColor,
       ],
     );
   }

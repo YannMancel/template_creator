@@ -53,30 +53,30 @@ class TemplateCard extends StatelessWidget {
                       Positioned(
                         left: tag.origin.x,
                         top: tag.origin.y,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: tag.color,
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: SizedBox.fromSize(
-                            size: tag.size,
+                        child: SizedBox.fromSize(
+                          size: tag.size,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: tag.stateColor,
+                              border: tag.border,
+                              borderRadius: tag.borderRadius,
+                              image: tag.format.when<DecorationImage?>(
+                                text: (_, __) => null,
+                                image: (source) => DecorationImage(
+                                  image: source.isNetworkUrl
+                                      ? NetworkImage(source)
+                                      : AssetImage(source),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                             child: Padding(
                               padding: tag.padding,
-                              child: tag.format.when<Widget>(
+                              child: tag.format.when<Widget?>(
                                 text: (label, style) => Center(
                                   child: Text(label, style: style),
                                 ),
-                                image: (source) => DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: source.isNetworkUrl
-                                          ? NetworkImage(source)
-                                          : AssetImage(source),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                                image: (_) => null,
                               ),
                             ),
                           ),
