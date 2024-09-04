@@ -8,15 +8,8 @@ class TemplateCard extends StatelessWidget {
     logic.onDragStart(thumbPoint: details.localPosition.toPoint);
   }
 
-  void _onDragUpdate(
-    DragUpdateDetails details,
-    TemplateLogic logic,
-    BoxConstraints constraints,
-  ) {
-    logic.onDragUpdate(
-      thumbPoint: details.localPosition.toPoint,
-      constraints: constraints.biggest,
-    );
+  void _onDragUpdate(DragUpdateDetails details, TemplateLogic logic) {
+    logic.onDragUpdate(thumbPoint: details.localPosition.toPoint);
   }
 
   void _onDragEnd(TemplateLogic logic) => logic.onDragEnd();
@@ -33,56 +26,63 @@ class TemplateCard extends StatelessWidget {
         child: SizedBox.fromSize(
           size: template.size,
           child: LayoutBuilder(
-            builder: (_, constraints) => GestureDetector(
-              onHorizontalDragStart: (details) => _onDragStart(details, logic),
-              onVerticalDragStart: (details) => _onDragStart(details, logic),
-              onHorizontalDragUpdate: (details) => _onDragUpdate(
-                details,
-                logic,
-                constraints,
-              ),
-              onVerticalDragUpdate: (details) => _onDragUpdate(
-                details,
-                logic,
-                constraints,
-              ),
-              onHorizontalDragEnd: (_) => _onDragEnd(logic),
-              onVerticalDragEnd: (_) => _onDragEnd(logic),
-              child: Stack(
-                children: <Widget>[
-                  for (final tag in template.tags)
-                    Positioned(
-                      left: tag.origin.x,
-                      top: tag.origin.y,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: tag.color,
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                        child: SizedBox.fromSize(
-                          size: tag.size,
-                          child: tag.format.when<Widget>(
-                            text: (label) => Center(
-                              child: Text(label),
-                            ),
-                            image: (source) => DecoratedBox(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: source.isNetworkUrl
-                                      ? NetworkImage(source)
-                                      : AssetImage(source),
-                                  fit: BoxFit.cover,
+            builder: (_, constraints) {
+              logic.constraints = constraints.biggest;
+              return GestureDetector(
+                onHorizontalDragStart: (details) {
+                  _onDragStart(details, logic);
+                },
+                onVerticalDragStart: (details) {
+                  _onDragStart(details, logic);
+                },
+                onHorizontalDragUpdate: (details) {
+                  _onDragUpdate(details, logic);
+                },
+                onVerticalDragUpdate: (details) {
+                  _onDragUpdate(details, logic);
+                },
+                onHorizontalDragEnd: (_) {
+                  _onDragEnd(logic);
+                },
+                onVerticalDragEnd: (_) {
+                  _onDragEnd(logic);
+                },
+                child: Stack(
+                  children: <Widget>[
+                    for (final tag in template.tags)
+                      Positioned(
+                        left: tag.origin.x,
+                        top: tag.origin.y,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: tag.color,
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: SizedBox.fromSize(
+                            size: tag.size,
+                            child: tag.format.when<Widget>(
+                              text: (label) => Center(
+                                child: Text(label),
+                              ),
+                              image: (source) => DecoratedBox(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: source.isNetworkUrl
+                                        ? NetworkImage(source)
+                                        : AssetImage(source),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                ],
-              ),
-            ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),

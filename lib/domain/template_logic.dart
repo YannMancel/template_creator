@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:template_creator/_features.dart';
 
 abstract interface class TemplateLogic {
+  set constraints(Size constraints);
   ValueNotifier<Template> get template;
   set updateWidth(double width);
   set updateHeight(double height);
@@ -12,15 +13,18 @@ abstract interface class TemplateLogic {
   void updateTagWidth(Tag tag, {required double width});
   void updateTagHeight(Tag tag, {required double height});
   void onDragStart({required math.Point<double> thumbPoint});
-  void onDragUpdate({
-    required math.Point<double> thumbPoint,
-    required Size constraints,
-  });
+  void onDragUpdate({required math.Point<double> thumbPoint});
   void onDragEnd();
 }
 
 final class TemplateLogicByValueNotifier implements TemplateLogic {
   late math.Point<double> _previousThumbPosition;
+  late Size _constraints;
+
+  static const kMinTagSize = Size.square(20.0);
+
+  @override
+  set constraints(Size constraints) => _constraints = constraints;
 
   @override
   final ValueNotifier<Template> template = ValueNotifier(const Template());
@@ -58,8 +62,12 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
 
   @override
   void updateTagWidth(Tag tag, {required double width}) {
+    final sizeBoundaries = math.Rectangle.fromPoints(
+      kMinTagSize.toBiggestPoint,
+      _constraints.toBiggestPoint - tag.origin,
+    );
     final updatedTag = tag.copyWith(
-      size: Size(width, tag.size.height),
+      size: Size(width, tag.size.height).clampByRectangle(sizeBoundaries),
     );
     final tags = template.value.tags;
     template.value = template.value.copyWith(
@@ -67,13 +75,16 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
         for (final idleTag in tags) (idleTag == tag) ? updatedTag : idleTag,
       ],
     );
-    // TODO(Yann): clamp by constraints
   }
 
   @override
   void updateTagHeight(Tag tag, {required double height}) {
+    final sizeBoundaries = math.Rectangle.fromPoints(
+      kMinTagSize.toBiggestPoint,
+      _constraints.toBiggestPoint - tag.origin,
+    );
     final updatedTag = tag.copyWith(
-      size: Size(tag.size.width, height),
+      size: Size(tag.size.width, height).clampByRectangle(sizeBoundaries),
     );
     final tags = template.value.tags;
     template.value = template.value.copyWith(
@@ -81,7 +92,6 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
         for (final idleTag in tags) (idleTag == tag) ? updatedTag : idleTag,
       ],
     );
-    // TODO(Yann): clamp by constraints
   }
 
   @override
@@ -105,10 +115,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   }
 
   @override
-  void onDragUpdate({
-    required math.Point<double> thumbPoint,
-    required Size constraints,
-  }) {
+  void onDragUpdate({required math.Point<double> thumbPoint}) {
     final tags = template.value.tags;
     final selectedTags = tags.where((tag) => tag.isSelected);
     if (selectedTags.isEmpty) return;
@@ -116,7 +123,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
     final dragDelta = thumbPoint - _previousThumbPosition;
     final originBoundaries = math.Rectangle.fromPoints(
       const math.Point<double>(0.0, 0.0),
-      constraints.toBiggestPoint - selectedTag.size.toBiggestPoint,
+      _constraints.toBiggestPoint - selectedTag.size.toBiggestPoint,
     );
     final updatedOrigin =
         (selectedTag.origin + dragDelta).clampByRectangle(originBoundaries);
