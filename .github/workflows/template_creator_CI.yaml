@@ -1,0 +1,38 @@
+name: template_creator_CI
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    template-creator-CI:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Make git clone
+              uses: actions/checkout@v3
+
+            - name: Setup fvm
+              uses: kuhnroyal/flutter-fvm-config-action@v1
+              with:
+                  path: '.fvm/fvm_config.json'
+
+            - name: Clone flutter version
+              uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: ${{ env.FLUTTER_VERSION }}
+                  channel: ${{ env.FLUTTER_CHANNEL }}
+
+            - name: Update dependencies of project
+              run: flutter pub get
+
+            - name: Run all static analysis checks of project
+              run: dart format lib/ && flutter analyze .
+
+            - name: Build and deploy project (GitHub Pages)
+              uses: bluefireteam/flutter-gh-pages@v8
+              with:
+                  workingDir: .
+                  baseHref: /template_creator/
+                  webRenderer: canvaskit
+                  targetBranch: template-creator-page
