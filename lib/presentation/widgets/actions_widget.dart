@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class ActionsWidget extends StatelessWidget {
   const ActionsWidget({
     super.key,
-    required this.onUpdatedWidthByStep,
-    required this.onUpdatedHeightByStep,
+    required this.onWidthStepUpdate,
+    required this.onHeightStepUpdate,
   });
 
-  final ValueSetter<double> onUpdatedWidthByStep;
-  final ValueSetter<double> onUpdatedHeightByStep;
+  final ValueSetter<double> onWidthStepUpdate;
+  final ValueSetter<double> onHeightStepUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,12 @@ class ActionsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton.outlined(
-              onPressed: () => onUpdatedWidthByStep(-10.0),
+              onPressed: () => onWidthStepUpdate(-10.0),
               icon: const Icon(Icons.remove),
             ),
             const Icon(Icons.swap_horiz),
             IconButton.outlined(
-              onPressed: () => onUpdatedWidthByStep(10.0),
+              onPressed: () => onWidthStepUpdate(10.0),
               icon: const Icon(Icons.add),
             ),
           ],
@@ -33,12 +33,12 @@ class ActionsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton.outlined(
-              onPressed: () => onUpdatedHeightByStep(-10.0),
+              onPressed: () => onHeightStepUpdate(-10.0),
               icon: const Icon(Icons.remove),
             ),
             const Icon(Icons.swap_vert),
             IconButton.outlined(
-              onPressed: () => onUpdatedHeightByStep(10.0),
+              onPressed: () => onHeightStepUpdate(10.0),
               icon: const Icon(Icons.add),
             ),
           ],

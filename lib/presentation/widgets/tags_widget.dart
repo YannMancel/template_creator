@@ -78,11 +78,11 @@ class TagListTile extends StatelessWidget {
           width: 150.0,
           height: 120.0,
           child: ActionsWidget(
-            onUpdatedWidthByStep: (step) {
+            onWidthStepUpdate: (step) {
               final logic = context.templateLogic;
               logic.updateTagWidth(tag, width: tag.size.width + step);
             },
-            onUpdatedHeightByStep: (step) {
+            onHeightStepUpdate: (step) {
               final logic = context.templateLogic;
               logic.updateTagHeight(tag, height: tag.size.height + step);
             },
