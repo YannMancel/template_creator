@@ -25,7 +25,7 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   late math.Point<double> _previousThumbPosition;
   late Size _constraints;
 
-  static const kMinTagSize = Size(20.0, 30.0);
+  static const kMinTagSize = Size.square(32.0);
 
   @override
   set constraints(Size constraints) => _constraints = constraints;
@@ -67,7 +67,9 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void updateTagWidth(Tag tag, {required double width}) {
     final sizeBoundaries = math.Rectangle.fromPoints(
-      kMinTagSize.toBiggestPoint,
+      (width < kMinTagSize.width)
+          ? kMinTagSize.toBiggestPoint
+          : const math.Point<double>(0.0, 0.0),
       _constraints.toBiggestPoint - tag.origin,
     );
     final updatedTag = tag.copyWith(
@@ -84,7 +86,9 @@ final class TemplateLogicByValueNotifier implements TemplateLogic {
   @override
   void updateTagHeight(Tag tag, {required double height}) {
     final sizeBoundaries = math.Rectangle.fromPoints(
-      kMinTagSize.toBiggestPoint,
+      (height < kMinTagSize.height)
+          ? kMinTagSize.toBiggestPoint
+          : const math.Point<double>(0.0, 0.0),
       _constraints.toBiggestPoint - tag.origin,
     );
     final updatedTag = tag.copyWith(

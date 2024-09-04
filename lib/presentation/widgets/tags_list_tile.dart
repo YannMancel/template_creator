@@ -91,13 +91,17 @@ class _TagListTileState extends State<TagListTile> {
           child: ActionsWidget(
             onWidthStepUpdate: (step) {
               final logic = context.templateLogic;
-              logic.updateTagWidth(widget.tag,
-                  width: widget.tag.size.width + step);
+              logic.updateTagWidth(
+                widget.tag,
+                width: widget.tag.size.width + step,
+              );
             },
             onHeightStepUpdate: (step) {
               final logic = context.templateLogic;
-              logic.updateTagHeight(widget.tag,
-                  height: widget.tag.size.height + step);
+              logic.updateTagHeight(
+                widget.tag,
+                height: widget.tag.size.height + step,
+              );
             },
           ),
         ),
