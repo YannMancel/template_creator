@@ -17,18 +17,14 @@ class HomePage extends StatelessWidget {
         title: Text(title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Column(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: TemplateCard(),
-            ),
-          ),
-          SizedBox(
-            height: 300.0,
-            child: ConfigurationWidget(),
-          ),
-        ],
+      body: const Center(
+        child: TemplateCard(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await TemplateBottomSheet.show(context);
+        },
+        child: const Icon(Icons.edit),
       ),
     );
   }

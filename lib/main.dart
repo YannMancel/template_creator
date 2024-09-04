@@ -8,16 +8,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: kAppName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: TemplateLogicWidget(
-        logic: TemplateLogicByValueNotifier(),
-        child: const HomePage(title: kAppName),
+    return TemplateLogicWidget(
+      logic: TemplateLogicByValueNotifier(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: kAppName,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const HomePage(title: kAppName),
       ),
     );
   }

@@ -6,6 +6,7 @@ class ConfigurationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     const kTabMap = <String, Widget>{
       'Size': TemplateSizeWidget(),
       'Tags': TagsWidget(),
@@ -16,7 +17,7 @@ class ConfigurationWidget extends StatelessWidget {
         children: <Widget>[
           DecoratedBox(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.inversePrimary,
+              color: theme.colorScheme.inversePrimary,
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(8.0),
               ),
@@ -28,10 +29,13 @@ class ConfigurationWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: TabBarView(
-              children: <Widget>[
-                for (final view in kTabMap.values) view,
-              ],
+            child: ColoredBox(
+              color: theme.dialogBackgroundColor,
+              child: TabBarView(
+                children: <Widget>[
+                  for (final view in kTabMap.values) view,
+                ],
+              ),
             ),
           ),
         ],
