@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await TemplateBottomSheet.show(context);
+          await TemplateSettingsBottomSheet.show(context);
         },
         child: const Icon(Icons.edit),
       ),

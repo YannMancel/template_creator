@@ -53,39 +53,7 @@ class TemplateCard extends StatelessWidget {
                       Positioned(
                         left: tag.origin.x,
                         top: tag.origin.y,
-                        child: SizedBox.fromSize(
-                          size: tag.size,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: tag.stateColor,
-                              border: tag.border,
-                              borderRadius: tag.borderRadius,
-                              image: tag.format.when<DecorationImage?>(
-                                text: (_, __, ___) => null,
-                                image: (source) => DecorationImage(
-                                  image: source.isNetworkUrl
-                                      ? NetworkImage(source)
-                                      : AssetImage(source),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: tag.padding,
-                              child: tag.format.when<Widget?>(
-                                text: (label, alignment, style) => Align(
-                                  alignment: alignment,
-                                  child: Text(
-                                    label,
-                                    style: style,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                image: (_) => null,
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: TagWidget(tag),
                       ),
                   ],
                 ),

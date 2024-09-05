@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
-class ConfigurationWidget extends StatelessWidget {
-  const ConfigurationWidget({super.key});
+class TemplateSettingsWidget extends StatelessWidget {
+  const TemplateSettingsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     const kTabMap = <String, Widget>{
-      'Size': TemplateSizeWidget(),
-      'Tags': TagsWidget(),
+      'Size': TemplateSizeSettingsWidget(),
+      'Tags': TagsSettingsWidget(),
     };
     return DefaultTabController(
       length: kTabMap.length,

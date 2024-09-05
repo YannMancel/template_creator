@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
-class TagListTile extends StatefulWidget {
-  const TagListTile(
+class TagSettingsListTile extends StatefulWidget {
+  const TagSettingsListTile(
     this.tag, {
     super.key,
   });
@@ -10,10 +10,10 @@ class TagListTile extends StatefulWidget {
   final Tag tag;
 
   @override
-  State<TagListTile> createState() => _TagListTileState();
+  State<TagSettingsListTile> createState() => _TagSettingsListTileState();
 }
 
-class _TagListTileState extends State<TagListTile> {
+class _TagSettingsListTileState extends State<TagSettingsListTile> {
   late TextEditingController _controller;
 
   @override
@@ -88,7 +88,7 @@ class _TagListTileState extends State<TagListTile> {
         SizedBox(
           width: 150.0,
           height: 120.0,
-          child: ActionsWidget(
+          child: SizeButtons(
             onWidthStepUpdate: (step) {
               final logic = context.templateLogic;
               logic.updateTagWidth(

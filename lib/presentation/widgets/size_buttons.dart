@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ActionsWidget extends StatelessWidget {
-  const ActionsWidget({
+class SizeButtons extends StatelessWidget {
+  const SizeButtons({
     super.key,
     required this.onWidthStepUpdate,
     required this.onHeightStepUpdate,

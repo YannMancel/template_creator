@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
-class TagsWidget extends StatelessWidget {
-  const TagsWidget({super.key});
+class TagsSettingsWidget extends StatelessWidget {
+  const TagsSettingsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class TagsWidget extends StatelessWidget {
               itemCount: sortedTags.length,
               itemBuilder: (_, index) {
                 final tag = sortedTags[index];
-                return TagListTile(
+                return TagSettingsListTile(
                   tag,
                   key: ValueKey(tag),
                 );
