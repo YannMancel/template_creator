@@ -18,9 +18,11 @@ class TemplateSettingsWidget extends StatelessWidget {
           DecoratedBox(
             decoration: BoxDecoration(
               color: theme.colorScheme.inversePrimary,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(8.0),
-              ),
+              borderRadius: context.isSmallDevice
+                  ? const BorderRadius.vertical(
+                      top: Radius.circular(8.0),
+                    )
+                  : null,
             ),
             child: TabBar(
               tabs: <Widget>[

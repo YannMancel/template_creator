@@ -1,5 +1,5 @@
 [![badge_flutter]][link_flutter_release]
-[![style: flutter_lints](https://img.shields.io/badge/style-flutter_lints-4BC0F5.svg)](https://pub.dev/packages/flutter_lints)
+[![badge_linter]][dependency_flutter_lints]
 ![badge_github_action]
 
 # template_creator
@@ -38,8 +38,9 @@
 * [Enable developer options and debugging][useful_developer_options]
 
 [badge_flutter]: https://img.shields.io/badge/flutter-v3.24.1-blue?logo=flutter
-[link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
+[badge_linter]: https://img.shields.io/badge/style-flutter__lints-4BC0F5.svg
 [badge_github_action]: https://github.com/YannMancel/template_creator/actions/workflows/template_creator_CI.yaml/badge.svg
+[link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
 [github_pages]: https://yannmancel.github.io/template_creator/
 [dependency_fvm]: https://fvm.app/
 [dependency_flutter_lints]: https://pub.dev/packages/flutter_lints
