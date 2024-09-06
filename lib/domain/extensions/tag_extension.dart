@@ -115,4 +115,9 @@ extension TagsExt on List<Tag> {
         (a, b) => b.id.compareTo(a.id),
       );
   }
+
+  bool equals(List<Tag> other) {
+    return length == other.length &&
+        indexed.every((tuple) => tuple.$2 == other[tuple.$1]);
+  }
 }

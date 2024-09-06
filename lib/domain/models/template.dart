@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:template_creator/_features.dart';
 
@@ -21,7 +20,7 @@ final class Template {
         (runtimeType == other.runtimeType &&
             other is Template &&
             size == other.size &&
-            const DeepCollectionEquality().equals(tags, other.tags));
+            tags.equals(other.tags));
   }
 
   @override
